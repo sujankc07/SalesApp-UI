@@ -1,0 +1,106 @@
+<div class="main">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Sign Up</h2>
+        <p>Enter your details to create your account</p>
+      </div>
+
+      <form
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+        class="login-form"
+        id="loginForm"
+        novalidate
+      >
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input
+              placeholder="User Name"
+              formControlName="userName"
+              required
+              autocomplete="username"
+            />
+            <label for="username">User Name</label>
+          </div>
+          @if (userName?.invalid && (userName?.dirty || userName?.touched)) {
+          @if (userName?.hasError('required')) {
+          <div style="color: red">&nbsp;*Username is required.</div>
+          } @if (userName?.hasError('minlength')) {
+          <div style="color: red">
+            &nbsp; username must be at least 3 characters long.
+          </div>
+          } }
+        </div>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input
+              placeholder="Email"
+              formControlName="email"
+              required
+              autocomplete="email"
+            />
+            <label for="email">Email Address</label>
+          </div>
+          @if (email?.invalid && (email?.dirty || email?.touched)){
+          <div style="color: red">&nbsp;*invalid email</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper password-wrapper">
+            <input
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+              required
+              autocomplete="current-password"
+            />
+            <label for="password">Password</label>
+          </div>
+          @if (password?.invalid && (password?.dirty || password?.touched)) {
+          @if (password?.hasError('required')) {
+          <div style="color: red">&nbsp;*password is required.</div>
+          } @if (password?.hasError('minlength')) {
+          <div style="color: red">
+            &nbsp;*password must be at least 6 characters long.
+          </div>
+          } }
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper password-wrapper">
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              formControlName="confirmPassword"
+              required
+              autocomplete="current-password"
+            />
+            <label>Confirm Password</label>
+          </div>
+          @if (password?.invalid && (password?.dirty || password?.touched)) {
+          @if (password?.hasError('required')) {
+          <div style="color: red">&nbsp;*password is required.</div>
+          } @if (password?.hasError('minlength')) {
+          <div style="color: red">
+            &nbsp;*password must be at least 6 characters long.
+          </div>
+          } }
+        </div>
+
+        <button type="submit" class="login-btn">
+          <span class="btn-text">Register</span>
+          <span class="btn-loader"></span>
+        </button>
+      </form>
+
+      <div class="signup-link">
+        <p>
+          Have an account?
+          <a (click)="onClick()" style="cursor: pointer">Sign in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

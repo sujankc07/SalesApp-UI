@@ -1,0 +1,230 @@
+<div class="root">
+  <div class="topnav" style="background: transparent">
+    <div class="start">
+      <a class="active" href="/dashboard" style="background: transparent">
+        <b>LOGO</b>
+      </a>
+      <div class="dropdown">
+        <button style="background: transparent; border: none">Navigator</button>
+
+        <ul class="dropdown-content" style="list-style-type: none">
+          <li>nav-1</li>
+          <li>nav-2</li>
+        </ul>
+      </div>
+      <a href="/dashboard" style="background: transparent">Customers</a>
+      <div class="dropdown">
+        <button style="background: transparent; border: none">Admin</button>
+        <ul class="dropdown-content" style="list-style-type: none">
+          <li>admin-1</li>
+          <li>admin-2</li>
+        </ul>
+      </div>
+
+      <a href="/dashboard" style="background: transparent">Order Loopkup</a>
+      <a href="/dashboard" style="background: transparent"
+        >Customer Favourite</a
+      >
+      <div class="dropdown">
+        <button style="background: transparent; border: none">Reports</button>
+        <ul class="dropdown-content" style="list-style-type: none">
+          <li>report-1</li>
+          <li>report-2</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <button class="logout" (click)="onLogout()">Logout</button>
+    </div>
+  </div>
+
+  <h1>Customer Search</h1>
+
+  <div
+    class="parent"
+    style="
+      background: transparent;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    "
+  >
+    <div class="search-bar">
+      <div class="p1">
+        <input
+          class="text-box"
+          type="text"
+          placeholder="Enter search query"
+          (input)="onSearch($event)"
+          (click)="toggelDropdown()"
+          (blur)="hideItems()"
+          [value]="selected"
+          autocomplete="off"
+          #inputvalue
+        />
+        @if(showitems){
+        <ul class="items">
+          @for (col of selectColumn; track $index) {
+          <li (click)="selectedColumn(col)">{{ col }}</li>
+          }
+        </ul>
+        }
+      </div>
+
+      <div class="p2">
+        <button
+          type="submit"
+          style="
+            border: none;
+            padding: 0%;
+            border-radius: 5px;
+            background: transparent;
+          "
+          (click)="fetchData()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="46"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+            />
+          </svg>
+        </button>
+        <label style="background: transparent; font-size: 17px; padding: 10px"
+          ><input
+            type="checkbox"
+            (change)="activeLabelChange($event)"
+            [checked]="active"
+          />
+          Active</label
+        >
+        <label style="background: transparent; font-size: 17px; padding: 10px"
+          ><input
+            type="checkbox"
+            (change)="deadLabelChange($event)"
+            [checked]="dead"
+          />
+          Dead</label
+        >
+      </div>
+    </div>
+    <br />
+
+    @if(displayTable){
+    <table class="customer-table">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th><a (click)="sortColumn('lob')">LOB</a></th>
+          <th>
+            <a (click)="sortColumn('customerNumber')">Customer Number</a>
+          </th>
+          <th><a (click)="sortColumn('location')">Location</a></th>
+          <th>
+            <a (click)="sortColumn('customerName')"> Customer Name</a>
+          </th>
+          <th><a (click)="sortColumn('phone')">Phone</a></th>
+          <th><a (click)="sortColumn('address')">Address</a></th>
+          <th><a (click)="sortColumn('city')">City</a></th>
+          <th><a (click)="sortColumn('state')">State</a></th>
+          <th><a (click)="sortColumn('postalCode')">Postal Code</a></th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (d of searchResult; track d.id) {
+        <tr>
+          @if(d.status == 1){
+          <td><span class="status active"></span></td>
+          } @else {
+          <td><span class="status inactive"></span></td>
+          }
+          <td>{{ d.lob }}</td>
+          <td>{{ d.customerNumber }}</td>
+          <td>{{ d.location }}</td>
+          <td>{{ d.customerName }}</td>
+          <td>{{ d.phone }}</td>
+          <td>{{ d.address }}</td>
+          <td>{{ d.city }}</td>
+          <td>{{ d.state }}</td>
+          <td>{{ d.postalCode }}</td>
+          @if(d.status == 1){
+          <td>
+            <button class="select-btn" (click)="getDetails(d.id)">
+              Select
+            </button>
+          </td>
+          }@else {
+          <td>
+            <button
+              class="select-btn"
+              (click)="getDetails(d.id)"
+              disabled
+              style="cursor: not-allowed"
+            >
+              Select
+            </button>
+          </td>
+          }
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <div
+      style="
+        display: flex;
+        justify-content: flex-start;
+        background: transparent;
+      "
+    >
+      <span style="background: transparent">Items per page: </span>
+      &nbsp;&nbsp;
+      <select
+        #item
+        (change)="setPagesize(item.value)"
+        style="background: #1e1e1e"
+      >
+        @for(item of pageItems; track $index){
+        <option value="{{ item }}">{{ item }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <div class="pagination">
+      @if(totalPages > 1) {
+      <button (click)="goToPage(1)" [disabled]="currentPage == 1">
+        ⏮ First
+      </button>
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage == 1">
+        ⬅ Prev
+      </button>
+
+      <span style="background: transparent"
+        >Page {{ currentPage }} of {{ totalPages }}</span
+      >
+
+      <button
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage == totalPages"
+      >
+        Next ➡
+      </button>
+      <button
+        (click)="goToPage(totalPages)"
+        [disabled]="currentPage == totalPages"
+      >
+        Last ⏭
+      </button>
+      }
+    </div>
+  </div>
+</div>

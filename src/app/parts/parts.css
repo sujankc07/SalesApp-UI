@@ -1,0 +1,140 @@
+.home, .order{
+background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  height: 37px;
+  width: 60px;
+  border-radius: 5px;
+}
+
+.home:hover{
+  background-color: #007bff;
+  font-weight: bold; 
+}
+
+.order:hover{
+  background-color: #007bff;
+  font-weight:bold;
+}
+
+
+
+.main{
+    background-color: #1e1e1e;
+    min-height: 945px;
+    color: white;
+}
+
+
+.header{
+    color: white;
+    text-align: center;
+    height: 90px;
+    padding: 20px;
+    
+}
+
+.details{
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-around;
+    padding:20px;
+    margin:10px;
+    font-size: 22px;
+}
+
+.address-select{
+    padding-top: 20px;
+    padding-left: 800px;
+}
+.orders{
+ padding-left: 60px;
+}
+.orders>button{
+   background: transparent;
+   color: white;
+   border: 2px solid #007bff;
+   height: 52px;
+   width: 130px;
+}
+
+.orders>button:hover{
+    background-color: #007bff;
+}
+.content{
+    display: flex;
+    justify-content: space-between;
+    margin: 50px;
+}
+
+.left{
+    width: 30%;
+}
+
+.right{
+    width: 70%;
+    padding: 40px;
+}
+
+input, select{
+    width: 200px;
+}
+
+button{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.table{
+    background-color: black;
+}
+.status.active {
+  height: 12px;
+  width: 12px;
+  background-color: #0f0;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status.inactive {
+  height: 12px;
+  width: 12px;
+  background-color: red;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.btn-search{
+    margin: 6px;
+}
+
+.home-btn{
+    float:right;
+}
+
+.cart{
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.cart:hover{
+    background-color: #5d98d8;
+}
+
+.cart-disabled{
+    background-color: #007bff;
+    cursor:not-allowed;
+}
+
+.table-header>th{
+    color: white;
+}
+
+
+table, th, td{
+    border:2px solid white;
+}
+
+th{
+    background-color: #007bff;
+}

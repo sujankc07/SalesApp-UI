@@ -1,0 +1,174 @@
+<div class="main">
+  <div class="header">
+    <span class="home-btn">
+      <button class="home" (click)="navigateToHome()">Home</button>
+      &nbsp;&nbsp;
+      <button class="order" (click)="navigateToOrder()">Order</button>
+    </span>
+    <h1>
+      <span
+        >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span
+      >
+      Customer Details
+    </h1>
+  </div>
+  <div class="details" *ngIf="customerDetails.customer$ | async as customer">
+    <div>
+      <b style="color: #007bff">Customer Number:</b>
+      {{ customer.customerNumber }}
+    </div>
+    <div><b style="color: #007bff">Location: </b> {{ customer.location }}</div>
+    <div>
+      <b style="color: #007bff">Customer Name:</b> {{ customer.customerName }}
+    </div>
+    <div><b style="color: #007bff">Phone:</b> {{ customer.phone }}</div>
+  </div>
+  <div class="address-select">
+    <span><b>Select Address: </b> </span>
+    <select (click)="getAddressDropdown()" (change)="addNewAdd($event)">
+      <option disabled selected>Select Address</option>
+      @for(ad of addressDropDown; track $index){
+      <option [value]="ad">{{ ad }}</option>
+      }
+      <option value="new">Enter New Address</option>
+    </select>
+  </div>
+  <div class="orders">
+    <button (click)="getOrders()">View Previous Orders</button>
+  </div>
+
+  <div class="content">
+    @if(partSearch){
+    <div class="left">
+      <h3 style="color: #007bff">Search Part</h3>
+      <br />
+      <input
+        type="text"
+        placeholder="Enter Part #"
+        (input)="setPartNumber($event)"
+        [(ngModel)]="num"
+      />
+      <br />
+      <button class="btn-search" (click)="searchPartByNumber()">Search</button
+      >&nbsp;&nbsp;<button class="btn-reset" (click)="onReset()">Reset</button>
+
+      <br />
+      <select
+        (click)="getYears()"
+        (change)="setYear($event)"
+        [(ngModel)]="selectedYear"
+      >
+        <option value="" disabled selected>Select Year</option>
+        @for(y of yearDropdown; track $index){
+        <option [value]="y">{{ y }}</option>
+        }
+      </select>
+      <br /><br />
+      <select
+        (click)="getMake()"
+        (change)="setMake($event)"
+        [(ngModel)]="selectedMake"
+      >
+        <option value="" disabled selected>Select Make</option>
+        @for(m of makeDropdown; track $index){
+        <option [value]="m">{{ m }}</option>
+        }
+      </select>
+      <br /><br />
+      <select
+        (click)="getModel()"
+        (change)="setModel($event)"
+        [(ngModel)]="selectedModel"
+      >
+        <option value="" disabled selected>Select Model</option>
+        @for(m of modelDropdown; track $index){
+        <option [value]="m">{{ m }}</option>
+        }
+      </select>
+      <br />
+      <button class="btn-search" (click)="searchPart()">Search</button
+      >&nbsp;&nbsp;
+      <button class="btn-reset" (click)="onResetDropdown()">Reset</button>
+    </div>
+    }
+
+    <div class="right">
+      @if(showTable){
+
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">Part Number</th>
+            <th scope="col">Part Name</th>
+            <th scope="col">Year</th>
+            <th scope="col">Make</th>
+            <th scope="col">Model</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(p of partDetails; track $index){
+          <tr>
+            <td scope="row">{{ p.partNumber }}</td>
+            <td>{{ p.partName }}</td>
+            <td>{{ p.year }}</td>
+            <td>{{ p.make }}</td>
+            <td>{{ p.model }}</td>
+            @if(p.availability == 1){
+            <td>
+              <div class="status active" style="position: relative"></div>
+            </td>
+            <td>${{ p.price }}</td>
+            <td>
+              <button (click)="addToCart()" class="cart">Add To Cart</button>
+            </td>
+            } @else {
+            <td><div class="status inactive"></div></td>
+            <td>${{ p.price }}</td>
+            <td>
+              <button (click)="addToCart()" class="cart-disabled" disabled>
+                Add To Cart
+              </button>
+            </td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+      } @if(viewOrders){
+      <h3 style="color: #007bff">Previous Orders</h3>
+      <div class="order-search">
+        <input type="text" placeholder="Search" (keyup)="searchTerm($event)" />
+      </div>
+      <div style="max-height: 400px; position: relative; overflow-y: scroll">
+        <table class="table table-dark">
+          <thead style="position: sticky; top: 0">
+            <tr class="table-header">
+              <th scope="col">Part Number</th>
+              <th scope="col">Part Name</th>
+              <th scope="col">Year</th>
+              <th scope="col">Make</th>
+              <th scope="col">Model</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody class="order-list">
+            @for(o of filteredOrders; track $index){
+            <tr>
+              <td scope="row">{{ o.PartNumber }}</td>
+              <td>{{ o.PartName }}</td>
+              <td>{{ o.Year }}</td>
+              <td>{{ o.Make }}</td>
+              <td>{{ o.Model }}</td>
+
+              <td>${{ o.Price }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+  </div>
+</div>

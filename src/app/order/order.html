@@ -1,0 +1,69 @@
+<!-- <button (click)="displayOrders()">view orders</button> -->
+
+<div class="nav">
+  <button class="home" (click)="navigateToHome()">Home</button>
+  <button class="parts" (click)="navigateToParts()">Parts</button>
+  <button class="logout" (click)="logout()">Logout</button>
+</div>
+<div class="main">
+  <div class="orders">
+    <div class="cart-container">
+      <h2>Your Cart</h2>
+      <br />
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <!-- <th scope="col">Part No</th> -->
+            <th scope="col">Part Name</th>
+            <th scope="col">Year</th>
+            <th scope="col">Make</th>
+            <th scope="col">Model</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(p of orders; track $index){
+          <tr>
+            <!-- <td>{{ p.partNumber }}</td> -->
+            <td>{{ p.partName }}</td>
+            <td>{{ p.year }}</td>
+            <td>{{ p.make }}</td>
+            <td>{{ p.model }}</td>
+            <td>${{ p.price }}</td>
+          </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="4" style="text-align: right">Total:</td>
+            <td>${{ totalPrice }}</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <button class="checkout" (click)="confirmOrder()">Checkout</button>
+    </div>
+  </div>
+
+  <div class="right">
+    <h2>Shipping Address</h2>
+
+    <div class="address" *ngIf="customerDetails.address$ | async as address">
+      <address>
+        <div style="color: #007bff">
+          Address: <span style="color: white"> {{ address.address }} </span>
+        </div>
+        <div style="color: #007bff">
+          City: <span style="color: white">{{ address.city }}</span>
+        </div>
+        <div style="color: #007bff">
+          State: <span style="color: white">{{ address.state }}</span>
+        </div>
+        <div style="color: #007bff">
+          Postal Code:
+          <span style="color: white">{{ address.postalCode }}</span>
+        </div>
+      </address>
+    </div>
+  </div>
+</div>
