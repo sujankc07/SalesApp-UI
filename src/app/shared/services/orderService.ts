@@ -13,7 +13,9 @@ export class Orders {
   }
 
   getOrders() {
-    console.log(this.orders.flat());
+    console.log('not flat', this.orders);
+
+    console.log('flat-', this.orders.flat());
     return this.orders.flat();
   }
 

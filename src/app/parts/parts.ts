@@ -419,6 +419,11 @@ export class Parts implements OnInit {
           this.partSearch = false;
           this.showTable = false;
 
+          if (this.filteredOrders.length == 0) {
+            this.viewOrders = false;
+            alert('No Previous Orders');
+          }
+
           console.log(this.filteredOrders);
         },
         error: (err) => {
@@ -469,21 +474,22 @@ export class Parts implements OnInit {
     console.log('XML DOc - ', xmlDoc);
 
     // Extract all <d4p1:OrderData> nodes
-    const orderNodes = xmlDoc.getElementsByTagName('d4p1:OrderData');
+    const orderNodes = xmlDoc.getElementsByTagName('OrderData');
     const orders: any[] = [];
 
     for (let i = 0; i < orderNodes.length; i++) {
       const order = orderNodes[i];
       const obj = {
-        Make: order.getElementsByTagName('d4p1:Make')[0]?.textContent || '',
-        Model: order.getElementsByTagName('d4p1:Model')[0]?.textContent || '',
-        PartName:
-          order.getElementsByTagName('d4p1:PartName')[0]?.textContent || '',
+        Make: order.getElementsByTagName('Make')[0]?.textContent || '',
+        Model: order.getElementsByTagName('Model')[0]?.textContent || '',
+        PartName: order.getElementsByTagName('PartName')[0]?.textContent || '',
         PartNumber:
-          order.getElementsByTagName('d4p1:PartNumber')[0]?.textContent || '',
-        Price: order.getElementsByTagName('d4p1:Price')[0]?.textContent || '',
-        Year: order.getElementsByTagName('d4p1:Year')[0]?.textContent || '',
+          order.getElementsByTagName('PartNumber')[0]?.textContent || '',
+        Price: order.getElementsByTagName('Price')[0]?.textContent || '',
+        Year: order.getElementsByTagName('Year')[0]?.textContent || '',
       };
+
+      console.log(obj);
 
       orders.push(obj);
     }

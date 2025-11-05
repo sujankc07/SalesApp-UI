@@ -66,34 +66,85 @@ export class Order implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const requestBody = {
-      orders: this.orders,
-    };
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    // };
+    // const requestBody = {
+    //   orders: this.orders,
+    // };
 
     const custNo = this.customerDetails.getCustomerNo();
+    // this.http
+    //   .post(
+    //     `https://localhost:7247/api/Order/saveOrder?custNo=${custNo}`,
+    //     requestBody,
+    //     {
+    //       headers,
+    //     }
+    //   )
+    //   .subscribe({
+    //     next: (res) => {
+    //       console.log(res);
+    //       alert('Order Confirmed!');
+
+    //       console.log('Orders-', this.orders);
+    //     },
+    //     error: (err) => {
+    //       console.error(err);
+    //     },
+    //   });
+    // console.log(this.orders);
+
+    //soap Endpoint
+    const OrderXml = this.orders
+      .map(
+        (o: any) => `<tem:OrderData>
+        <tem:PartNumber>${o.partNumber}</tem:PartNumber>
+        <tem:PartName>${o.partName}</tem:PartName>
+        <tem:Year>${o.year}</tem:Year>
+        <tem:Make>${o.make}</tem:Make>
+        <tem:Model>${o.model}</tem:Model>
+        <tem:Price>${o.price}</tem:Price>
+      </tem:OrderData>`
+      )
+      .join('');
+
+    const soapBody = `<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                        xmlns:tem="http://tempuri.org/">
+        <soap:Header/>
+        <soap:Body>
+        <tem:SaveOrder>
+        <tem:custNo>${custNo}</tem:custNo>
+            <tem:request>
+              <tem:orders>
+                ${OrderXml}
+              </tem:orders>
+            </tem:request>
+          </tem:SaveOrder>
+        </soap:Body>
+      </soap:Envelope>
+    `;
+
+    const headers = {
+      'Content-Type': 'text/xml',
+      SOAPAction: 'http://tempuri.org/IOrderSoapService/SaveOrderAsync',
+    };
+    console.log(headers);
+    console.log(this.orders);
 
     this.http
-      .post(
-        `https://localhost:7247/api/Order/saveOrder?custNo=${custNo}`,
-        requestBody,
-        {
-          headers,
-        }
-      )
+      .post('https://localhost:7247/soap/OrderService', soapBody, {
+        headers,
+        responseType: 'text',
+      })
       .subscribe({
         next: (res) => {
           console.log(res);
           alert('Order Confirmed!');
-
-          console.log('Orders-', this.orders);
         },
         error: (err) => {
           console.error(err);
         },
       });
-    console.log(this.orders);
   }
 }
