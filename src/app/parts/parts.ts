@@ -86,7 +86,7 @@ export class Parts implements OnInit {
       .subscribe({
         next: (res) => {
           this.addressDropDown = res;
-          console.log(res);
+          console.log(this.addressDropDown);
           this.viewOrders = false;
         },
         error: (err) => {
@@ -473,7 +473,7 @@ export class Parts implements OnInit {
 
     console.log('XML DOc - ', xmlDoc);
 
-    // Extract all <d4p1:OrderData> nodes
+    // Extract all <OrderData> nodes
     const orderNodes = xmlDoc.getElementsByTagName('OrderData');
     const orders: any[] = [];
 

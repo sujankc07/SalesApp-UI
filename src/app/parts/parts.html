@@ -28,7 +28,7 @@
     <select (click)="getAddressDropdown()" (change)="addNewAdd($event)">
       <option disabled selected>Select Address</option>
       @for(ad of addressDropDown; track $index){
-      <option [value]="ad">{{ ad }}</option>
+      <option [value]="ad.address">{{ ad.address }}</option>
       }
       <option value="new">Enter New Address</option>
     </select>

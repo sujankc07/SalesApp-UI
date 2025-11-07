@@ -129,7 +129,7 @@ export class Dashboard implements OnInit {
     const token = this.auth.getToken();
 
     if (!token) {
-      alert('No token found. Please log in.');
+      alert('Please Log In Again.');
       //this.router.navigate(['/login']);
       return;
     }
